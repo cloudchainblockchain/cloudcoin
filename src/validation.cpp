@@ -1163,8 +1163,110 @@ CAmount GetBlockSubsidy(int nHeight, const Consensus::Params& consensusParams)
 {
     int halvings = nHeight / consensusParams.nSubsidyHalvingInterval;
     // Force block reward to zero when right shift is undefined.
-    if (halvings >= 64)
+    if (halvings >= 1)
         return 0;
+    if(nHeight == 1)
+        return 5000000000 * COIN;
+    if(nHeight <= 525600) // Year1
+        return 1000 * COIN;
+    if(nHeight <= 1051200) // Year2
+        return 900 * COIN;
+    if(nHeight <= 1576800) // Year3
+        return 810 * COIN;
+    if(nHeight <= 2102400) // Year4
+        return 729 * COIN;
+    if(nHeight <= 2628000) // Year5
+        return 656 * COIN;
+    if(nHeight <= 3153600) // Year6
+        return 590 * COIN;
+    if(nHeight <= 3679200) // Year7
+        return 531 * COIN;
+    if(nHeight <= 4204800) // Year8
+        return 478 * COIN;
+    if(nHeight <= 4730400) // Year9
+        return 430 * COIN;
+    if(nHeight <= 5256000) // Year10
+        return 387 * COIN;
+    if(nHeight <= 5781600) // Year11
+        return 348 * COIN;
+    if(nHeight <= 6307200) // Year12
+        return 314 * COIN;
+    if(nHeight <= 6832800) // Year13
+        return 282 * COIN;
+    if(nHeight <= 7358400) // Year14
+        return 254 * COIN;
+    if(nHeight <= 7884000) // Year15
+        return 229 * COIN;
+    if(nHeight <= 8409600) // Year16
+        return 206 * COIN;
+    if(nHeight <= 8935200) // Year17
+        return 185 * COIN;
+    if(nHeight <= 9460800) // Year18
+        return 166 * COIN;
+    if(nHeight <= 9986400) // Year19
+        return 150 * COIN;
+    if(nHeight <= 10512000) // Year20
+        return 135 * COIN;
+    if(nHeight <= 11037600) // Year21
+        return 122 * COIN;
+    if(nHeight <= 11563200) // Year22
+        return 110 * COIN;
+    if(nHeight <= 12088800) // Year23
+        return 99 * COIN;
+    if(nHeight <= 12614400) // Year24
+        return 89 * COIN;
+    if(nHeight <= 13140000) // Year25
+        return 80 * COIN;
+    if(nHeight <= 13665600) // Year26
+        return 72 * COIN;
+    if(nHeight <= 14191200) // Year27
+        return 65 * COIN;
+    if(nHeight <= 14716800) // Year28
+        return 58.5 * COIN;
+    if(nHeight <= 15242400) // Year29
+        return 52.65 * COIN;
+    if(nHeight <= 15768000) // Year30
+        return 47 * COIN;
+    if(nHeight <= 16293600) // Year31
+        return 42.3 * COIN;
+    if(nHeight <= 16819200) // Year32
+        return 38 * COIN;
+    if(nHeight <= 17344800) // Year33
+        return 34 * COIN;
+    if(nHeight <= 17870400) // Year34
+        return 31 * COIN;
+    if(nHeight <= 18396000) // Year35
+        return 28 * COIN;
+    if(nHeight <= 18921600) // Year36
+        return 25 * COIN;
+    if(nHeight <= 19447200) // Year37
+        return 22.5 * COIN;
+    if(nHeight <= 19972800) // Year38
+        return 20.25 * COIN;
+    if(nHeight <= 20498400) // Year39
+        return 18.25 * COIN;
+    if(nHeight <= 21024000) // Year40
+        return 16.5 * COIN;
+    if(nHeight <= 21549600) // Year41
+        return 14.85 * COIN;
+    if(nHeight <= 22075200) // Year42
+        return 13.4 * COIN;
+    if(nHeight <= 22600800) // Year43
+        return 12 * COIN;
+    if(nHeight <= 23126400) // Year44
+        return 10.8 * COIN;
+    if(nHeight <= 23652000) // Year45
+        return 9.7 * COIN;
+    if(nHeight <= 24177600) // Year46
+        return 8.75 * COIN;
+    if(nHeight <= 24703200) // Year47
+        return 7.87 * COIN;
+    if(nHeight <= 25228800) // Year48
+        return 7.1 * COIN;
+    if(nHeight <= 25754400) // Year49
+        return 6.3 * COIN;
+    if(nHeight <= 26280000) // Year50
+        return 5.7 * COIN;
 
     CAmount nSubsidy = 50 * COIN;
     // Subsidy is cut in half every 210,000 blocks which will occur approximately every 4 years.
@@ -1747,7 +1849,7 @@ static unsigned int GetBlockScriptFlags(const CBlockIndex* pindex, const Consens
     AssertLockHeld(cs_main);
 
     unsigned int flags = SCRIPT_VERIFY_NONE;
-    
+
     // Start enforcing P2SH (BIP16)
     if (pindex->nHeight >= consensusparams.BIP16Height) {
         flags |= SCRIPT_VERIFY_P2SH;
@@ -1881,7 +1983,7 @@ bool CChainState::ConnectBlock(const CBlock& block, CValidationState& state, CBl
     // Now that the whole chain is irreversibly beyond that time it is applied to all blocks except the
     // two in the chain that violate it. This prevents exploiting the issue against nodes during their
     // initial block download.
-    
+
     bool fEnforceBIP30 = true;
     //bool fEnforceBIP30 = !((pindex->nHeight==91842 && pindex->GetBlockHash() == uint256S("0x00000000000a4d0a398161ffc163c503763b1f4360639393e0e4c8e300e0caec")) ||
     //                       (pindex->nHeight==91880 && pindex->GetBlockHash() == uint256S("0x00000000000743f190a18c5577a3c2d2a1f610ae9601ac046a38084ccb7cd721")));
